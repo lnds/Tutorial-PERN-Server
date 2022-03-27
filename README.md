@@ -1,3 +1,8 @@
+# Tutorial PERN
+
+En este tutorial implementaremos un servido usando el Stack PERN: Postgresql, Express, React and Node.
+
+
 ## Preparación
 
 ### En replit:
