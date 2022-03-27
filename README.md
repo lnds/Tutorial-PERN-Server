@@ -209,7 +209,10 @@ app.get("/todos", async (req, res) => {
 Re inicia el server y verás esta resultado:
 
 ```
-  [{"id":1,"description":"preparar el tutorial"},{"id":2,"description":"preparar presentación para la clase"}]
+[
+  {"id":1,"description":"preparar el tutorial"},
+  {"id":2,"description":"preparar presentación para la clase"}
+]
 ```
 
 Que es la representación en formato JSON de los registros que están en nuestra base de datos.
@@ -217,4 +220,40 @@ Que es la representación en formato JSON de los registros que están en nuestra
 **¡Felicitaciones, has creado tu primer endpoint RESTFul!**
 
 
+## Crear un registro (POST)
 
+Ahora agregaremos un métdodo POST asociado al endpoint `/todos` para poder crear registros.
+
+Agrega este código antes de
+
+```javascript
+//create a todo
+app.post("/todos", async (req, res) => {
+    try {
+        const { description } = req.body
+        const newTodo = await pool.query(
+            "INSERT INTO todos(description) VALUES($1) RETURNING *",
+            [description]
+        )
+        res.json(newTodo.rows[0])
+    } catch (err) {
+        console.error(err.message)
+    }
+})
+```
+
+### Probando el endpoint usando curl
+
+En el Shell de Replit ejecuta curl de la siguiente forma:
+
+  curl -X POST -H "Content-Type: application/json" \
+    -d '{"description": "publicar servicio "}' \
+    https://url-replit/todos
+
+Puedes recuperar (GET) usando curl de esta forma:
+
+  https://url-replit/todos
+
+Reemplaza `url-replit` por el valor que genera REPLIT para tu entorno.
+
+Para probar esto en tu PC reemplaza `url-replit` por `localhost:3001`
