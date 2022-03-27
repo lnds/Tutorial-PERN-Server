@@ -36,6 +36,21 @@ app.get("/todos", async (req, res) => {
     }
 })
 
+//get a todo
+app.get("/todos/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const todo = await pool.query(
+            "SELECT * FROM todos WHERE id = $1",
+            [id]
+        )
+        res.json(todo.rows[0])
+    } catch (err) {
+        console.log(err)
+
+    }
+})
+
 //update a todo
 app.put("/todos/:id", async (req, res) => {
     try {
@@ -49,6 +64,22 @@ app.put("/todos/:id", async (req, res) => {
         res.json("Todo was updated")
     } catch (err) {
         console.log(err)
+
+    }
+})
+
+//delete a todo
+app.delete("/todos/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const deleteTodo = await pool.query(
+            "DELETE FROM todos WHERE id = $1",
+            [id]
+        )
+        console.log(deleteTodo)
+        res.json("todo was deleted")
+    } catch (err) {
+        console.error(err)
 
     }
 })

@@ -196,7 +196,7 @@ Agrega este código en index.js antes de `app.listen()...`:
 app.get("/todos", async (req, res) => {
     try {
         const allTodos = await pool.query(
-            "SELECT * FROM todos"
+            "SELECT * FROM todos ORDER BY id"
         )
         res.json(allTodos.rows)
     } catch (err) {
@@ -218,6 +218,28 @@ Re inicia el server y verás esta resultado:
 Que es la representación en formato JSON de los registros que están en nuestra base de datos.
 
 **¡Felicitaciones, has creado tu primer endpoint RESTFul!**
+
+
+## Recuperar un registro específico (GET)
+
+Para recuperar sólo un registro debemos implementar el método get pero recibiendo un parámetro con el identificador del registro del siguiente modo:
+
+```javascript
+//get a todo
+app.get("/todos/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const todo = await pool.query(
+            "SELECT * FROM todos WHERE id = $1",
+            [id]
+        )
+        res.json(todo.rows[0])
+    } catch (err) {
+        console.log(err)
+
+    }
+})
+```
 
 
 ## Crear un registro (POST)
@@ -287,5 +309,38 @@ Ejecuta este código para probar este método:
 
 Fíjate que a la url hemos agregado un `1` que corresponde al identificador del registro que queremos actualizar.
 
+## Borrar registros usando el método DELETE
+
+Finalmente agregamos el siguiente código para implementar el método DELETE:
+
+```javascript
+//delete a todo
+app.delete("/todos/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const deleteTodo = await pool.query(
+            "DELETE FROM todos WHERE id = $1",
+            [id]
+        )
+        console.log(deleteTodo)
+        res.json("todo was deleted")
+    } catch (err) {
+        console.error(err)
+
+    }
+})
+```
+
+### Probando el método DELETE con curl:
+
+Ejecuta lo siguiente para borrar el primer registro de la base de datos:
+
+  curl -X DELETE  https://url-replit/todos/1
 
 
+
+
+
+## Ejercicios:
+
+Averigua cómo responder con un código 500 cada vez que se produzca 
