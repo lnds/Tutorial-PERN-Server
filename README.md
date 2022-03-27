@@ -186,3 +186,35 @@ const pool = require("./db")
 ```
 
 Ejecuta `run >` nuevamente.
+
+## Recuperar los registros (GET)
+
+Agrega este código en index.js antes de `app.listen()...`:
+
+```javascript
+//get all todos
+app.get("/todos", async (req, res) => {
+    try {
+        const allTodos = await pool.query(
+            "SELECT * FROM todos"
+        )
+        res.json(allTodos.rows)
+    } catch (err) {
+        console.error(err.message)
+    }
+})
+
+```
+
+Re inicia el server y verás esta resultado:
+
+```
+  [{"id":1,"description":"preparar el tutorial"},{"id":2,"description":"preparar presentación para la clase"}]
+```
+
+Que es la representación en formato JSON de los registros que están en nuestra base de datos.
+
+**¡Felicitaciones, has creado tu primer endpoint RESTFul!**
+
+
+
