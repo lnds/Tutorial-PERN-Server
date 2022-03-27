@@ -257,3 +257,35 @@ Puedes recuperar (GET) usando curl de esta forma:
 Reemplaza `url-replit` por el valor que genera REPLIT para tu entorno.
 
 Para probar esto en tu PC reemplaza `url-replit` por `localhost:3001`
+
+## Actualizar usando PUT
+
+Ahora implementaremos la operación UPDATE usando el método PUT, agrega este código después del método GET:
+
+//update a todo
+app.put("/todos/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const { description } = req.body
+        const updateTodo = await pool.query(
+            "UPDATE todos SET description = $1 WHERE id = $2",
+            [description, id]
+        )
+        console.log(updateTodo)
+        res.json("Todo was updated")
+    } catch (err) {
+        console.log(err)
+
+    }
+})
+
+### Probando el método PUT con Curl:
+
+Ejecuta este código para probar este método:
+
+    curl -X PUT -H "Content-type: application/json" -d '{"description": "preparar el tutorial PERN"}' https://url-replit/todos/1
+
+Fíjate que a la url hemos agregado un `1` que corresponde al identificador del registro que queremos actualizar.
+
+
+

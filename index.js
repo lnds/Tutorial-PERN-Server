@@ -28,11 +28,28 @@ app.post("/todos", async (req, res) => {
 app.get("/todos", async (req, res) => {
     try {
         const allTodos = await pool.query(
-            "SELECT * FROM todos"
+            "SELECT * FROM todos ORDER BY id"
         )
         res.json(allTodos.rows)
     } catch (err) {
         console.error(err.message)
+    }
+})
+
+//update a todo
+app.put("/todos/:id", async (req, res) => {
+    try {
+        const { id } = req.params
+        const { description } = req.body
+        const updateTodo = await pool.query(
+            "UPDATE todos SET description = $1 WHERE id = $2",
+            [description, id]
+        )
+        console.log(updateTodo)
+        res.json("Todo was updated")
+    } catch (err) {
+        console.log(err)
+
     }
 })
 
