@@ -339,8 +339,8 @@ Ejecuta lo siguiente para borrar el primer registro de la base de datos:
 
 
 
-
-
 ## Ejercicios:
 
-Averigua cómo responder con un código 500 cada vez que se produzca 
+Averigua cómo responder con un código 404 cada vez que no se encuentre un registro en la base de datos.
+
+Averigua cómo responder con un error 500 si se produce una excepcion.
