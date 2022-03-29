@@ -1,6 +1,10 @@
-# Tutorial PERN
+# Tutorial Server PERN
 
-En este tutorial implementaremos un servido usando el Stack PERN: Postgresql, Express, React and Node.
+En este tutorial implementaremos un servidor RESTFul usando el Stack PERN: Postgresql, Express, React and Node.
+
+Este tutorial se puede ejecutar en replit.com o en el PC. 
+
+Tratré de cubrir cada caso, comentarios, correcciones son bienvenidas via pull requests.
 
 
 ## Preparación
@@ -20,17 +24,17 @@ Instala node.js, puedes descargarlo desde acá: https://nodejs.org/en/download/
 Crear una carpeta e inicializar node dentro de esta:
 
   ```
-  $ mkdir tutorial-server
-  $ cd tutorial-server
-  $ npm init
-  $ npm i express pg cors
+  mkdir tutorial-server
+  cd tutorial-server
+  npm init
+  npm i express pg cors
   ```
   
 El comando npm init te preguntará diversa información de tu proyecto, puedes llenarla o dejarla en blanco simplemente presionando `enter`, no es relevante para este ejercicio.
 
 ## Inicializando un servidor node
 
-Modifica el archivo index.js agrega este código:
+Dentro de la carpeta `tutorial-server` crea el archivo `index.js` y agrega este código:
 
   
 ```javascript
@@ -80,11 +84,11 @@ Para ejecutar tu programa debes hacer:
 
 MacOs o Linux:
 
-  $ SERVER_PORT=3001 node index
+  SERVER_PORT=3001 node index
 
 Windows usando cmd:
 
-  > set SERVER_PORT=3001 && node index
+  set SERVER_PORT=3001 && node index
 
 Windows usando PowerShell
 
@@ -95,8 +99,6 @@ Navega a la dirección http://localhost:3001/ y debería aparecer una página co
     Cannot GET /
 
 ## Crear la base de datos
-
-Vamos a crear una base de datos.
 
 En este caso vamos a usar una conexion usando el servicio ElephantSQL, en la dirección: https://www.elephantsql.com
 
@@ -251,7 +253,7 @@ app.get("/todos/:id", async (req, res) => {
 
 Ahora agregaremos un métdodo POST asociado al endpoint `/todos` para poder crear registros.
 
-Agrega este código antes de
+Agrega este código en `index.js`:
 
 ```javascript
 //create a todo
@@ -289,6 +291,7 @@ Para probar esto en tu PC reemplaza `url-replit` por `localhost:3001`
 
 Ahora implementaremos la operación UPDATE usando el método PUT, agrega este código después del método GET:
 
+```javascript
 //update a todo
 app.put("/todos/:id", async (req, res) => {
     try {
@@ -349,3 +352,5 @@ Ejecuta lo siguiente para borrar el primer registro de la base de datos:
 Averigua cómo responder con un código 404 cada vez que no se encuentre un registro en la base de datos.
 
 Averigua cómo responder con un error 500 si se produce una excepcion.
+
+(c) 2022 Eduardo Díaz
